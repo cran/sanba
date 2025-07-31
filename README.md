@@ -1,17 +1,18 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# sanba v0.0.1
+# sanba v0.0.2
 
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/Fradenti/sanba/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Fradenti/sanba/actions/workflows/R-CMD-check.yaml)
 [![Last
 Commit](https://img.shields.io/github/last-commit/fradenti/sanba)](https://github.com/fradenti/sanba)
-<!---
 [![CRAN](https://www.r-pkg.org/badges/version/sanba)](https://cran.r-project.org/package=sanba)
-[![Downloads (monthly)](https://cranlogs.r-pkg.org/badges/sanba?color=brightgreen)](https://www.r-pkg.org/pkg/sanba)
-[![Downloads (total)](https://cranlogs.r-pkg.org/badges/grand-total/sanba?color=brightgreen)](https://www.r-pkg.org/pkg/sanba)--->
+[![Downloads
+(monthly)](https://cranlogs.r-pkg.org/badges/sanba?color=brightgreen)](https://www.r-pkg.org/pkg/sanba)
+[![Downloads
+(total)](https://cranlogs.r-pkg.org/badges/grand-total/sanba?color=brightgreen)](https://www.r-pkg.org/pkg/sanba)
 <!-- badges: end -->
 
 The goal of `sanba` is to estimate Bayesian nested mixture models via
@@ -38,8 +39,6 @@ devtools::install_github("Fradenti/sanba")
 
 ``` r
 library(sanba)
-#> Loading required package: scales
-#> Loading required package: RColorBrewer
 set.seed(123)
 y <- c(rnorm(160), rnorm(40, 5))
 g <- rep(1:2, rep(100, 2))
@@ -57,19 +56,20 @@ out_mcmc <- fit_CAM(y = y, group = g, est_method = "MCMC", mcmc_param = list(nre
 #> were used. Check '$warnings' to see when it happened.
 out_mcmc
 #> 
-#> MCMC result of CAM model 
+#> MCMC results for CAM 
 #> -----------------------------------------------
 #> Model estimated on 200 total observations and 2 groups 
+#> Groups sample sizes: 100, 100 
+#> 
 #> Size of the MCMC sample (after burn-in): 2000 
 #> Total MCMC iterations performed: 5000 
-#> maxL: 50 - maxK: 20 
-#> Elapsed time: 0.615 secs
+#> Elapsed time: 0.632 secs
 plot(out_mcmc)
 ```
 
 <img src="man/figures/README-example1-2.png" width="100%" />
 
-    #> [1] "Output truncated at 2 for mu."
+    #> Output truncated at 2 for mu.
 
 ### Fitting via VI
 
@@ -88,14 +88,17 @@ lines(density(y[g==2]), col = 2)
 
 out_vi <- fit_fiSAN(y, group = g, est_method = "VI", vi_param = list(n_runs = 100))
 out_vi
+#> 
 #> Variational inference results for fiSAN 
 #> ----------------------------------------------
-#> L: 30 - K: 20 
+#> Model estimated on 200 total observations and 2 groups 
+#> Groups sample sizes: 100, 100 
+#> 
 #> Threshold: 1e-06 
-#> ELBO value: -173.141 
+#> ELBO value: -171.476 
 #> Best run out of 100 
-#> Convergence reached in 180 iterations
-#> Elapsed time: 0.041 secs
+#> Convergence reached in 291 iterations
+#> Elapsed time: 0.101 secs
 plot(out_vi)
 ```
 
